@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  api:
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '8888:8888'
+    volumes:
+      - .:/home/node/app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: node dist/main.js
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:

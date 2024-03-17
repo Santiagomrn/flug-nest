@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@modules/*": ["src/modules/*"],
+      "@libraries/*": ["src/libraries/*"],
+      "@config/*": ["src/config/*"],
+      "@decorators/*":["src/common/decorators/*"],
+      "@core/*":["src/core/*"],
+      "@swagger/*":["src/core/swagger/*"],
+      "@pipes/*": ["src/common/pipes/*"],
+      "@interceptors/*": ["src/common/interceptors/*"],
+      "@common/dto*":["src/common/dto/*"]
+  }
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "src/**/*.ejs", 
+    "jest.config.ts",
+    "jest-e2e.config.ts"
+  ]
+}
