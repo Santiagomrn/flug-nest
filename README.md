@@ -1,11 +1,5 @@
-## Flug-Nest
+# Flug-Nest ✈️ <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="40" alt="Nest Logo" /></a>
 
-<p align="center">
-  <spam style="font-weight:500;font-size:95px">✈️</spam> <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="110" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
 Flug-Nest is a template for web application development powered by [Sequelize-typescript](https://github.com/sequelize/sequelize-typescript#readme) and
 [NestJs](https://github.com/nestjs/nest) framework, inspired on [flugzeug](https://github.com/Rodmg/flugzeug) framework. It provides modules, validators, interceptors, pipes, decorators, database migration system, logger, auto-generated swagger documentation and a cli tool to accelerate the development process.
