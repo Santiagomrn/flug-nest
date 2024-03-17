@@ -1,6 +1,5 @@
 # Flug-Nest ✈️ <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="40" alt="Nest Logo" /></a>
 
-
 Flug-Nest is a template for web application development powered by [Sequelize-typescript](https://github.com/sequelize/sequelize-typescript#readme) and
 [NestJs](https://github.com/nestjs/nest) framework, inspired on [flugzeug](https://github.com/Rodmg/flugzeug) framework. It provides modules, validators, interceptors, pipes, decorators, database migration system, logger, auto-generated swagger documentation and a cli tool to accelerate the development process.
 
@@ -41,7 +40,46 @@ $ npm run start:dev
 
 ```
 
-## CLI
+## CLI (Windows)
+
+Package.json already comes with a command to run the cli tools:
+
+```bash
+npm run flug-nest
+```
+
+Generate a fully module ready to use.
+
+```bash
+npm run flug-nest g api -- --help
+
+> flug-nest@0.0.1 flug-nest
+> node ./src/libraries/cli/index.js g api --help
+
+Usage: index g api [options] <moduleName>
+
+Arguments:
+  moduleName          name of the module
+
+Options:
+  -bU, --belongsUser  module belongs to user
+  -d, --dto           generate dto
+  -e, --entity        generate entity
+  -s, --service       generate service
+  -c, --controller    generate controller
+  -n_s, --no_spec     no generate test files
+  -h, --help          display help for command
+```
+
+### Example
+
+This will create a book module that belongs to the user.
+
+```bash
+npm run flug-nest g api book -- -bU
+```
+
+## CLI (Linux)
 
 Run inside your project folder to install the cli tool:
 
@@ -71,7 +109,7 @@ Options:
 
 ### Example
 
-This will create a the book module that belong to user.
+This will create a book module that belongs to the user.
 
 ```bash
 flug-nest g api book -bU
