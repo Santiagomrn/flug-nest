@@ -115,8 +115,8 @@ export const config = {
   },
   auth: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID || 'use your own credentials',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'use your own credentials',
     },
   },
   test: {

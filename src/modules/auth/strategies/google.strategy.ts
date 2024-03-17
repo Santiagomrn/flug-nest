@@ -4,13 +4,14 @@ import { Injectable } from '@nestjs/common';
 import { UserService } from '@modules/user/user.service';
 import { FederatedUserDto } from '../dto/federatedUser.dto';
 import { AuthType } from '@modules/user/entities/user.entity';
+import { config } from '@config/index';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private userService: UserService) {
     super({
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: config.auth.google.clientId,
+      clientSecret:config.auth.google.clientSecret,
       callbackURL: 'http://localhost:3000/v1/auth/google-redirect',
       scope: ['email', 'profile'],
     });
