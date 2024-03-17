@@ -23,7 +23,8 @@
     "makemigration": "nest build && node --require source-map-support/register dist/libraries/migrations/makemigration.js",
     "migrate": "nest build && node --require source-map-support/register dist/libraries/migrations/migrate.js",
     "seed": "nest build && node --require source-map-support/register dist/core/database/seed.js",
-    "docker:local": "docker-compose -f docker-compose.yml up --build"
+    "docker:local": "docker-compose -f docker-compose.yml up --build",
+    "flug-nest": "node ./src/libraries/cli/index.js"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
