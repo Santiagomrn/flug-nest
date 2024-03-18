@@ -43,7 +43,7 @@ $ npm run start:dev
 
 By default you can find the swagger docuementation of your app here: http://localhost:3000/swagger
 or 
-If you prefer view the documentations in a json formart you can find it here: http://localhost:3000/swagger-json
+If you prefer view the documentation in a json format you can find it here: http://localhost:3000/swagger-json
 
 ## CLI (Windows)
 
