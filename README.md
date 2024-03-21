@@ -311,6 +311,10 @@ Please update your database access credentials on the .env file in the root of t
 
 SQLite is configured as a database engine by default, to change the database engine please refer to [Sequelize Dialect-Specific](https://sequelize.org/docs/v6/other-topics/dialect-specific-things/) to install the required connector library.
 
+### Docker postgres
+```bash	
+docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
 ### Autogenerate migrations for changes on DB
 
 ```
