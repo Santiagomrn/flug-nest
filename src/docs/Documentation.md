@@ -20,6 +20,195 @@ It is recommended to have basic knowledge of those technologies before working w
 - **main.ts:** Application starting point, useful for initializing the services, specially for those that require to be started with a certain order.
 - **declarations.d.ts:** Special Typescript declarations for the project
 
+## Project tree
+```bash
+.
+├── Dockerfile
+├── README.md
+├── docker-compose.yml
+├── jest-e2e.config.ts
+├── jest.config.ts
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── src
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   ├── common
+│   │   ├── decorators
+│   │   │   ├── appendToBody.decorator.ts
+│   │   │   ├── appendUser.decorator.ts
+│   │   │   ├── filterOwner.decorator.ts
+│   │   │   └── user.decorator.ts
+│   │   ├── dto
+│   │   │   └── paginated.dto.ts
+│   │   ├── interceptors
+│   │   │   ├── appendToBody.interceptor.ts
+│   │   │   ├── appendUser.interceptor.ts
+│   │   │   └── filterOwner.interceptor.ts
+│   │   └── pipes
+│   │       ├── parseAttributes.pipe.ts
+│   │       ├── parseInclude.pipe.ts
+│   │       ├── parseLimit.pipe.ts
+│   │       ├── parseOffset.pipe.ts
+│   │       ├── parseOrder.pipe.ts
+│   │       └── parseWhere.pipe.ts
+│   ├── config
+│   │   └── index.ts
+│   ├── core
+│   │   ├── database
+│   │   │   ├── config.ts
+│   │   │   ├── database.sqlite
+│   │   │   ├── database.ts
+│   │   │   ├── migration.ts
+│   │   │   ├── migrations
+│   │   │   │   └── currentSchema.json
+│   │   │   ├── seed.ts
+│   │   │   ├── seedData.ts
+│   │   │   └── testDatabase.ts
+│   │   ├── logger
+│   │   │   ├── Logger.ts
+│   │   │   └── WinstonLogger.ts
+│   │   └── swagger
+│   │       ├── httpResponses
+│   │       │   ├── Accepted.decorator.ts
+│   │       │   ├── BadRequest.decorator.ts
+│   │       │   ├── Conflict.decorator.ts
+│   │       │   ├── Created.decorator.ts
+│   │       │   ├── Forbidden.decorator.ts
+│   │       │   ├── ImATeapot.decorator.ts
+│   │       │   ├── InternalServerError.ts
+│   │       │   ├── NotFound.decorator.ts
+│   │       │   ├── Ok.decorator.ts
+│   │       │   ├── OkPaginatedData.decorator.ts
+│   │       │   ├── RequestTimeOut.decorator.ts
+│   │       │   └── Unauthorized.decorator.ts
+│   │       ├── parameters
+│   │       │   ├── attributes.decorator.ts
+│   │       │   ├── include.decorator.ts
+│   │       │   ├── limit.decorator.ts
+│   │       │   ├── offset.decorator.ts
+│   │       │   ├── order.decorator.ts
+│   │       │   └── where.decorator.ts
+│   │       └── utils
+│   │           ├── commonResponses.decorator.ts
+│   │           └── pagination.decorator.ts
+│   ├── declaration.d.ts
+│   ├── docs
+│   │   ├── CreateANoteApi.md
+│   │   ├── Documentation.md
+│   │   └── img
+│   │       ├── SQLite viewer.png
+│   │       ├── create_note.png
+│   │       ├── database.png
+│   │       ├── login.png
+│   │       └── login_response.png
+│   ├── libraries
+│   │   ├── BaseModel.ts
+│   │   ├── SequelizeCrudRepository.ts
+│   │   ├── cli
+│   │   │   ├── generateController.js
+│   │   │   ├── generateDtos.js
+│   │   │   ├── generateModule.js
+│   │   │   ├── generateRepository.js
+│   │   │   ├── generateService.js
+│   │   │   ├── generateSpecs.js
+│   │   │   ├── generateTests.js
+│   │   │   ├── genertateEntity.js
+│   │   │   └── index.js
+│   │   ├── intefaces
+│   │   │   └── IFindOne.ts
+│   │   ├── migrations
+│   │   │   ├── makemigration.ts
+│   │   │   ├── migrate.ts
+│   │   │   └── migrationGenerator.ts
+│   │   └── util.ts
+│   ├── main.ts
+│   └── modules
+│       ├── auth
+│       │   ├── auth.controller.ts
+│       │   ├── auth.module.ts
+│       │   ├── auth.service.ts
+│       │   ├── decorators
+│       │   │   ├── isOwner.decorator.ts
+│       │   │   ├── isRole.decorator.ts
+│       │   │   ├── isSelfUser.decorator.ts
+│       │   │   ├── isSelfUserOrIsRole.decorator.ts
+│       │   │   └── validateJWT.decorator.ts
+│       │   ├── dto
+│       │   │   ├── federatedUser.dto.ts
+│       │   │   └── signIn.dto.ts
+│       │   ├── entities
+│       │   │   └── federatedCredential.entity.ts
+│       │   ├── federatedCredential.Repository.ts
+│       │   ├── guards
+│       │   │   ├── GoogleOAuth.guard.ts
+│       │   │   ├── isOwner.guard.ts
+│       │   │   ├── isRole.guard.ts
+│       │   │   ├── isSelfUser.guard.ts
+│       │   │   ├── isSelfUserGuardOrIsRole.guard.ts
+│       │   │   └── validateJWT.guard.ts
+│       │   ├── strategies
+│       │   │   └── google.strategy.ts
+│       │   └── tests
+│       │       ├── auth.controller.spec.ts
+│       │       ├── auth.e2e-spec.ts
+│       │       ├── isOwner.spec.ts
+│       │       ├── isRole.guard.spec.ts
+│       │       ├── isSelfUser.guard.spec.ts
+│       │       └── isSelfUserGuardOrIsRole.guard.spec.ts
+│       ├── email
+│       │   ├── email.module.ts
+│       │   ├── email.service.ts
+│       │   └── templates
+│       │       ├── email_confirmation.ejs
+│       │       └── template.ejs
+│       ├── note
+│       │   ├── dto
+│       │   │   ├── create-note.dto.ts
+│       │   │   └── update-note.dto.ts
+│       │   ├── entities
+│       │   │   └── note.entity.ts
+│       │   ├── note.controller.ts
+│       │   ├── note.module.ts
+│       │   ├── note.repository.ts
+│       │   ├── note.service.ts
+│       │   └── tests
+│       │       ├── factories.ts
+│       │       ├── note.controller.spec.ts
+│       │       └── note.e2e-spec.ts
+│       ├── role
+│       │   ├── entities
+│       │   │   └── role.entity.ts
+│       │   ├── enums
+│       │   │   └── roles.enum.ts
+│       │   ├── role.module.ts
+│       │   └── role.repository.ts
+│       ├── user
+│       │   ├── dto
+│       │   │   ├── create-user.dto.ts
+│       │   │   ├── update-user.dto.ts
+│       │   │   └── user-response.dto.ts
+│       │   ├── entities
+│       │   │   └── user.entity.ts
+│       │   ├── tests
+│       │   │   ├── factories.ts
+│       │   │   ├── user.controller.spec.ts
+│       │   │   └── user.e2e-spec.ts
+│       │   ├── user.controller.ts
+│       │   ├── user.module.ts
+│       │   ├── user.repository.ts
+│       │   └── user.service.ts
+│       └── userrole
+│           ├── entities
+│           │   └── userrole.entity.ts
+│           ├── userrole.module.ts
+│           └── userrole.repository.ts
+├── tsconfig.build.json
+└── tsconfig.json
+```
+
 ### Query params
 
 - **where**: Accepts JSON following a modified Sequelize query format. More details in the **Where query format** section.
