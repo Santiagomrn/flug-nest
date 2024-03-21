@@ -46,16 +46,25 @@ async function bootstrap() {
   );
 
   //SWAGGER auth
-  if (config.swagger.hasAuth)
+  if (config.swagger.hasAuth){
+   const basicAuthMiddleware = expressBasicAuth({
+      users: {
+        [`${config.swagger.username}`]: config.swagger.password,
+      },
+      challenge: true,
+    })
+    //UI swagger view
     app.use(
       `/${config.swagger.route}`,
-      expressBasicAuth({
-        users: {
-          [`${config.swagger.username}`]: config.swagger.password,
-        },
-        challenge: true,
-      }),
+      basicAuthMiddleware
     );
+    //JSON swagger view
+    app.use(
+      `/${config.swagger.route}-json`,
+      basicAuthMiddleware
+    );
+  }
+
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(`${config.app.name}`)
