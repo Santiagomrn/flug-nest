@@ -9,6 +9,8 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Build a note app](./src/docs/CreateANoteApi.md)
 
+- [Design pattern implementations in TypeScript](https://github.com/Santiagomrn/design_patterns_in_typescript)
+
 ## Installation
 
 ```bash
@@ -39,10 +41,11 @@ $ npm run start
 $ npm run start:dev
 
 ```
+
 ## Swagger
 
 By default you can find the swagger docuementation of your app here: http://localhost:3000/swagger
-or 
+or
 If you prefer view the documentation in a json format you can find it here: http://localhost:3000/swagger-json
 
 ## CLI (Windows)
@@ -312,9 +315,11 @@ Please update your database access credentials on the .env file in the root of t
 SQLite is configured as a database engine by default, to change the database engine please refer to [Sequelize Dialect-Specific](https://sequelize.org/docs/v6/other-topics/dialect-specific-things/) to install the required connector library.
 
 ### Docker postgres
-```bash	
+
+```bash
 docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
+
 ### Autogenerate migrations for changes on DB
 
 ```
