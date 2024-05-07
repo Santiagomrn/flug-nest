@@ -7,7 +7,7 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Documentation](./src/docs/Documentation.md)
 
-- [Flugnest genetaror](https://www.npmjs.com/package/flugnest-generator)
+- [Flugnest generator](https://www.npmjs.com/package/flugnest-generator)
 
 - [Build a note app](./src/docs/CreateANoteApi.md)
 
@@ -17,7 +17,7 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 ## Installation
 
 
-Either through cloning with git or by using [Flugnest genetaror](https://www.npmjs.com/package/flugnest-generator) (the recommended way)
+Either through cloning with git or by using [Flugnest generator](https://www.npmjs.com/package/flugnest-generator) (the recommended way)
 
 ```bash
 npm install -g flugnest-generator
