@@ -1,17 +1,21 @@
 # Let's create a note api
 
-Clone the Github repository.
+Either through cloning with git or by using [Flugnest generator](https://www.npmjs.com/package/flugnest-generator) (the recommended way)
 
-```sh
-git clone url
+```bash
+npm install -g flugnest-generator
+```
+Flugnest-generator is ready to use since is globally installed:
+
+To generate an app run.
+```bash
+flugnest app noteApp
 ```
 
-Go to your project folder.
-
-```sh
-cd ./flug-nest
+Go to your app directory
+```bash
+cd noteApp
 ```
-
 ## Installation
 
 Install node dependencies:
@@ -85,11 +89,12 @@ Press ctrl+c to stop the app.
 
 ## Note Module
 
-Use the cli tool to create the note module.
+Use [Flugnest generator](https://www.npmjs.com/package/flugnest-generator) tool to create the note module.
 
 ```bash
-flug-nest g api note -bU
+flugnest module note
 ```
+![alt text](img/module.png)
 
 Go to the [module](../modules/) directory and you will find the note module.
 

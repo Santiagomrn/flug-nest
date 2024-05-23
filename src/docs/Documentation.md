@@ -228,7 +228,7 @@ It is recommended to have basic knowledge of those technologies before working w
 
 Flug-Nest query format is based on the Sequelize query format, but limited and adapted for security.
 
-The contents of the `where` query param should be a JSON where the keys are either:
+The contents of the `where` query param should be an array[JSON]  where the keys of JSON are either:
 
 - The name of the parameter that we want to query in the Model, or
 - One of the following supported operators:
