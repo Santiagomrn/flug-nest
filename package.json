@@ -26,7 +26,8 @@
     "live:seed": "node dist/core/database/seed.js",
     "live:migrate": " node dist/libraries/migrations/migrate.js",
     "docker:local": "docker-compose -f docker-compose.yml up --build",
-    "flug-nest": "node ./src/libraries/cli/index.js"
+    "flug-nest": "node ./src/libraries/cli/index.js",
+    "commit": "commit"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -69,6 +70,8 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@golevelup/ts-jest": "^0.4.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
