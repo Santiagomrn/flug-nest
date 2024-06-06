@@ -10,8 +10,9 @@ import expressBasicAuth from 'express-basic-auth';
 import { PaginatedDto } from '@common/dto/paginated.dto';
 
 async function bootstrap() {
+  let logger: Logger = new Logger();
   const app = await NestFactory.create(AppModule, {
-    logger: new Logger(),
+    logger,
   });
 
   //SECURITY
@@ -93,5 +94,6 @@ async function bootstrap() {
   );
   app.enableShutdownHooks();
   await app.listen(config.server.port);
+  logger.info(`Server started at port ${config.server.port}`)
 }
 bootstrap();
