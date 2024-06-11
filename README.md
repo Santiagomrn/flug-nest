@@ -13,30 +13,29 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Design pattern implementations in TypeScript](https://github.com/Santiagomrn/design_patterns_in_typescript)
 
-
 ## Installation
-
 
 Either through cloning with git or by using [Flugnest generator](https://www.npmjs.com/package/flugnest-generator) (the recommended way)
 
 ```bash
 npm install -g flugnest-generator
 ```
+
 Flugnest-generator is ready to use since is globally installed:
 
 To generate an app run.
+
 ```bash
 flugnest app [name of your app]
 ```
 
-
 ## CLI Module Generator
 
 To generate a module run in the root of your app.
+
 ```bash
 flugnest module [name of your module]
 ```
-
 
 After create your module do not forget to register it into nest app in file `src/app.module.ts`
 
@@ -51,7 +50,8 @@ import { BookModule } from './modules/book/book.module';
 ```
 
 ## Running tests
-In the root directiry run
+
+In the root directory run
 
 ```bash
 # unit tests
@@ -66,7 +66,8 @@ $ npm run test:e2e
 ```
 
 ## Running the app
-In the root directiry run
+
+In the root directory run
 
 ```bash
 # development
@@ -79,10 +80,9 @@ $ npm run start:dev
 
 ## Swagger
 
-By default you can find the swagger docuementation of your app here: http://localhost:3000/swagger
+By default you can find the swagger documentation of your app here: http://localhost:3000/swagger
 or
 If you prefer view the documentation in a json format you can find it here: http://localhost:3000/swagger-json
-
 
 ## Models/Entity
 
@@ -237,6 +237,14 @@ export class NoteController {
 
 Please refer to [Nest OpenApi](https://docs.nestjs.com/openapi/introduction)
 
+## Commitlint
+
+This project already has [commitlint](https://commitlint.js.org/) installed, to commit we recommend to use following prompt:
+
+```bash
+$ npm run commit
+```
+
 ## Database
 
 Please update your database access credentials on the .env file in the root of the project if needed.
@@ -246,13 +254,13 @@ SQLite is configured as a database engine by default, to change the database eng
 ### Docker postgres
 
 ```bash
-docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+$ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
 
 ### Autogenerate migrations for changes on DB
 
 ```
-npm run makemigration
+$ npm run makemigration
 ```
 
 **Please Note:** These migrations only create an "up" action, "down" actions need to be created manually if desired.
@@ -262,5 +270,5 @@ Feel free to manually modify the generated migration files in `src/core/database
 ### Execute migrations
 
 ```
-npm run migrate
+$ npm run migrate
 ```
