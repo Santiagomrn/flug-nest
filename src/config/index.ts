@@ -113,10 +113,23 @@ export const config = {
     logging: false,
     timezone: 'utc', // IMPORTANT For correct timezone management with DB.
   },
+  azure: {
+    serviceBus: {
+      connectionString: process.env.AZURE_SERVICEBUS_CONNECTION_STRING || '',
+      queueExample: {
+        name: process.env.AZURE_SERVICEBUS_QUEUEEXAMPLE_NAME || '',
+      },
+      topicExample: {
+        name: process.env.AZURE_SERVICEBUS_EXAMPLE_TOPICNAME || '',
+        subscription: process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_NAME || '', //this is only required for receiver/client
+      },
+    },
+  },
   auth: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID || 'use your own credentials',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'use your own credentials',
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET || 'use your own credentials',
     },
   },
   test: {
