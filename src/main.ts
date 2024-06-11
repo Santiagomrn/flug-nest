@@ -1,3 +1,4 @@
+import { config } from './config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
@@ -5,15 +6,24 @@ import { Logger } from './core/logger/Logger';
 import * as morgan from 'morgan';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { config } from './config';
 import expressBasicAuth from 'express-basic-auth';
 import { PaginatedDto } from '@common/dto/paginated.dto';
+import { AzureServiceBusServer } from 'nestjs-azure-service-bus-transporter';
 
 async function bootstrap() {
   let logger: Logger = new Logger();
   const app = await NestFactory.create(AppModule, {
     logger,
   });
+
+  //Microservices Hybrid application (ServiceBus)
+  await app.connectMicroservice({
+    strategy: new AzureServiceBusServer({
+      connectionString: config.azure.serviceBus.connectionString,
+      options: {},
+    }),
+  });
+  await app.startAllMicroservices();
 
   //SECURITY
   app.use(helmet());
@@ -47,25 +57,18 @@ async function bootstrap() {
   );
 
   //SWAGGER auth
-  if (config.swagger.hasAuth){
-   const basicAuthMiddleware = expressBasicAuth({
+  if (config.swagger.hasAuth) {
+    const basicAuthMiddleware = expressBasicAuth({
       users: {
         [`${config.swagger.username}`]: config.swagger.password,
       },
       challenge: true,
-    })
+    });
     //UI swagger view
-    app.use(
-      `/${config.swagger.route}`,
-      basicAuthMiddleware
-    );
+    app.use(`/${config.swagger.route}`, basicAuthMiddleware);
     //JSON swagger view
-    app.use(
-      `/${config.swagger.route}-json`,
-      basicAuthMiddleware
-    );
+    app.use(`/${config.swagger.route}-json`, basicAuthMiddleware);
   }
-
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(`${config.app.name}`)
@@ -94,6 +97,6 @@ async function bootstrap() {
   );
   app.enableShutdownHooks();
   await app.listen(config.server.port);
-  logger.info(`Server started at port ${config.server.port}`)
+  logger.info(`Server started at port ${config.server.port}`);
 }
 bootstrap();
