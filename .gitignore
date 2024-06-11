@@ -1,7 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
+/.yalc
+yalc.lock
 # Logs
 .logs
 *.log
