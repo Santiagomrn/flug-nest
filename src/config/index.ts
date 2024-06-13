@@ -120,8 +120,9 @@ export const config = {
         name: process.env.AZURE_SERVICEBUS_QUEUEEXAMPLE_NAME || '',
       },
       topicExample: {
-        name: process.env.AZURE_SERVICEBUS_EXAMPLE_TOPICNAME || '',
-        subscription: process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_NAME || '', //this is only required for receiver/client
+        name: process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_NAME || '',
+        subscription:
+          process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_SUBSCRIPTION || '', //this is only required for receiver/client
       },
     },
   },
