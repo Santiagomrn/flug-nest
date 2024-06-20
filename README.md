@@ -9,6 +9,10 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Flugnest generator](https://www.npmjs.com/package/flugnest-generator)
 
+- [Service Bus Module](https://www.npmjs.com/package/nestjs-azure-service-bus-transporter)
+
+- [webSockets Module](https://docs.nestjs.com/websockets/gateways)
+
 - [Build a note app](./src/docs/CreateANoteApi.md)
 
 - [Design pattern implementations in TypeScript](https://github.com/Santiagomrn/design_patterns_in_typescript)
