@@ -17,13 +17,13 @@ async function bootstrap() {
   });
 
   //Microservices Hybrid application (ServiceBus)
-  // await app.connectMicroservice({
-  //   strategy: new AzureServiceBusServer({
-  //     connectionString: config.azure.serviceBus.connectionString,
-  //     options: {},
-  //   }),
-  // });
-  // await app.startAllMicroservices();
+  await app.connectMicroservice({
+    strategy: new AzureServiceBusServer({
+      connectionString: config.azure.serviceBus.connectionString,
+      options: {},
+    }),
+  });
+  await app.startAllMicroservices();
 
   //SECURITY
   app.use(helmet());
