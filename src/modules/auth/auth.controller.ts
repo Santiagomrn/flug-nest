@@ -15,6 +15,7 @@ import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { GoogleOAuthGuard } from './guards/GoogleOAuth.guard';
 import { FederatedUserDto } from './dto/federatedUser.dto';
 import { User } from '@decorators/user.decorator';
+import { TokenDto } from './dto/token.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -25,6 +26,12 @@ export class AuthController {
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
     return await this.authService.signIn(signInDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  async refreshToken(@Body() refreshTokenDto: TokenDto) {
+    return await this.authService.refreshToken(refreshTokenDto);
   }
 
   @HttpCode(HttpStatus.CREATED)

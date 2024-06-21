@@ -41,7 +41,7 @@ export abstract class SequelizeCrudRepository<T extends Model> {
   }
   async findOneById(
     id: number,
-    include: IncludeOptions[] = [],
+    include: Includeable | Includeable[] = [],
     attributes: string[] = null,
     t: Transaction = null,
   ): Promise<T> {
