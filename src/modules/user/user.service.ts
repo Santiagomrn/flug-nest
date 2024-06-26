@@ -7,7 +7,7 @@ import { User } from './entities/user.entity';
 import { RoleRepository } from '@modules/role/role.repository';
 import { ROLES } from '@modules/role/enums/roles.enum';
 import { UserResponseDto } from './dto/user-response.dto';
-import { PaginatedDto } from '@common/dtopaginated.dto';
+import { PaginatedDto } from '@common/dto/paginated.dto';
 
 @Injectable()
 export class UserService {
@@ -34,7 +34,7 @@ export class UserService {
     order?: OrderItem[];
     attributes?: string[];
   }) {
-    const paginatedUsers = await this.userRepository.findAll(options);
+    const paginatedUsers = await this.userRepository.findAndCountAll(options);
 
     const users = UserResponseDto.fromUser(paginatedUsers.data);
     const paginatedUserResponses = { ...paginatedUsers, data: users };

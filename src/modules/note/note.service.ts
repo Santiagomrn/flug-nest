@@ -4,6 +4,7 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 import { NoteRepository } from './note.repository';
 import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
 import { Note } from './entities/note.entity';
+import { PaginatedDto } from '@common/dto/paginated.dto';
 
 @Injectable()
 export class NoteService {
@@ -19,8 +20,8 @@ export class NoteService {
     offset?: number;
     order?: OrderItem[];
     attributes?: string[];
-  }) {
-    return await this.noteRepository.findAll(options);
+  }): Promise<PaginatedDto<Note>> {
+    return await this.noteRepository.findAndCountAll(options);
   }
 
   async findOne(id: number, include?: IncludeOptions[], attributes?: string[]) {
