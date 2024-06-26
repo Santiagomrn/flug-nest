@@ -12,10 +12,13 @@ import { UserModule } from '@modules/user/user.module';
 import { CreateUserDtoFactory } from '@modules/user/tests/factories';
 import { UserRepository } from '@modules/user/user.repository';
 import { EmailModule } from '@modules/email/email.module';
+import { CreateUserDto } from '@modules/user/dto/create-user.dto';
+import { AuthService, TOKEN_TYPE } from '../auth.service';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
   let userRepository: UserRepository;
+  let authService: AuthService;
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [testDatabaseModule, UserModule, AuthModule, EmailModule],
@@ -25,15 +28,13 @@ describe('AuthController (e2e)', () => {
     await seed();
     app = moduleFixture.createNestApplication();
     userRepository = moduleFixture.get<UserRepository>(UserRepository);
+    authService = moduleFixture.get<AuthService>(AuthService);
     app.useGlobalPipes(
       new ValidationPipe({ whitelist: true, transform: true }),
     );
     await app.init();
   });
-
-  it('/auth/signup (POST)', async () => {
-    const createUserDto = CreateUserDtoFactory();
-    const responseUser = _.omit(createUserDto, ['password']);
+  const signupUser = async (createUserDto: CreateUserDto) => {
     const response = await request(app.getHttpServer())
       .post('/auth/signup')
       .send(createUserDto)
@@ -43,97 +44,128 @@ describe('AuthController (e2e)', () => {
         }
       })
       .expect(HttpStatus.CREATED);
-
+    return response;
+  };
+  const loginUser = async (email: string, password: string) => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: email,
+        password: password,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+    return response;
+  };
+  const refreshToken = async (token: string) => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/refresh')
+      .send({
+        token: token,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+    return response;
+  };
+  const resetPassword = async (token: string, password: string) => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/reset/password')
+      .send({
+        token: token,
+        password: password,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+    return response;
+  };
+  const resetPasswordEmail = async (email: string) => {
+    const response = await request(app.getHttpServer())
+      .post('/auth/reset/password/email')
+      .send({
+        email,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+    return response;
+  };
+  it('/auth/signup (POST)', async () => {
+    const createUserDto = CreateUserDtoFactory();
+    const responseUser = _.omit(createUserDto, ['password']);
+    const response = await signupUser(createUserDto);
     expect(response.body).toMatchObject({
       ...responseUser,
       id: expect.any(Number),
     });
   });
 
-  it('/auth/login (POST)', async () => {
+  it('/reset/password/email (POST)', async () => {
     const createUserDto = CreateUserDtoFactory();
     const responseUser = _.omit(createUserDto, ['password']);
-    const { body: user } = await request(app.getHttpServer())
-      .post('/auth/signup')
-      .send(createUserDto)
-      .expect(function (res) {
-        if (res.status != 201) {
-          console.log(JSON.stringify(res.body, null, 2));
-        }
-      })
-      .expect(HttpStatus.CREATED);
-
-    expect(user).toMatchObject({
+    const response = await signupUser(createUserDto);
+    expect(response.body).toMatchObject({
       ...responseUser,
       id: expect.any(Number),
     });
     //confirm email
-    await userRepository.update(user.id, { isActive: true });
+    await userRepository.update(response.body.id, { isActive: true });
+    await resetPasswordEmail(response.body.email);
+  });
 
-    await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({
-        email: createUserDto.email,
-        password: createUserDto.password,
-      })
-      .expect(function (res) {
-        if (res.status != HttpStatus.OK) {
-          console.log(JSON.stringify(res.body, null, 2));
-        }
-      })
-      .expect(HttpStatus.OK);
-
+  it('/auth/login (POST)', async () => {
+    await loginUser('user@example.com', 'Passw0rd');
     return;
   });
 
   it('/auth/refresh (POST)', async () => {
-    const createUserDto = CreateUserDtoFactory();
-    const responseUser = _.omit(createUserDto, ['password']);
-    const { body: user } = await request(app.getHttpServer())
-      .post('/auth/signup')
-      .send(createUserDto)
-      .expect(function (res) {
-        if (res.status != 201) {
-          console.log(JSON.stringify(res.body, null, 2));
-        }
-      })
-      .expect(HttpStatus.CREATED);
+    const { body: credentials } = await loginUser(
+      'user@example.com',
+      'Passw0rd',
+    );
 
-    expect(user).toMatchObject({
-      ...responseUser,
-      id: expect.any(Number),
-    });
-    //confirm email
-    await userRepository.update(user.id, { isActive: true });
-
-    const { body: credentials } = await request(app.getHttpServer())
-      .post('/auth/login')
-      .send({
-        email: createUserDto.email,
-        password: createUserDto.password,
-      })
-      .expect(function (res) {
-        if (res.status != HttpStatus.OK) {
-          console.log(JSON.stringify(res.body, null, 2));
-        }
-      })
-      .expect(HttpStatus.OK);
-
-    const { body: refreshCredentials } = await request(app.getHttpServer())
-      .post('/auth/refresh')
-      .send({
-        token: credentials.refresh_token.token,
-      })
-      .expect(function (res) {
-        if (res.status != HttpStatus.OK) {
-          console.log(JSON.stringify(res.body, null, 2));
-        }
-      })
-      .expect(HttpStatus.OK);
+    const { body: refreshCredentials } = await refreshToken(
+      credentials.refresh_token.token,
+    );
     expect(refreshCredentials).toMatchObject({
       token: expect.any(String),
     });
     return;
+  });
+
+  it('/reset/password (POST)', async () => {
+    const createUserDto = CreateUserDtoFactory();
+    const responseUser = _.omit(createUserDto, ['password']);
+    const response = await signupUser(createUserDto);
+    expect(response.body).toMatchObject({
+      ...responseUser,
+      id: expect.any(Number),
+    });
+    //confirm email
+    await userRepository.update(response.body.id, { isActive: true });
+    const token = await authService.createToken(
+      response.body,
+      TOKEN_TYPE.RESET,
+    );
+    const { body: user } = await resetPassword(token.token, 'newPassssssss');
+    expect(user).toMatchObject({
+      ...responseUser,
+      id: expect.any(Number),
+    });
   });
 
   afterAll(async () => {

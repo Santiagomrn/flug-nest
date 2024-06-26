@@ -86,7 +86,10 @@ export class AuthService {
     return UserResponseDto.fromUser(user);
   }
 
-  public async createToken(user: Plain<User>, type: string): Promise<Token> {
+  public async createToken(
+    user: Plain<User>,
+    type: TOKEN_TYPE,
+  ): Promise<Token> {
     const expiryUnit: string = config.jwt[type].expiry.unit;
     const expiryLength: number = config.jwt[type].expiry.length;
     const roles = user.roles;
