@@ -71,6 +71,7 @@ describe('Auth Controller', () => {
       googleSingIn: async () => credentials,
       createToken: async () => {},
       createCredentials: async () => credentials,
+      refreshToken: async () => credentials,
       validateJwt: async () => {},
       confirmEmail: async () => {},
       googleAuthRedirect: async () => {},
@@ -117,6 +118,15 @@ describe('Auth Controller', () => {
       ...mockedUserResponse,
       id: expect.any(Number),
     });
+  });
+
+  it('should refreshToken', async () => {
+    jest.spyOn(service, 'refreshToken').mockResolvedValue(credentials);
+    expect(
+      await controller.refreshToken({
+        token: credentials.refresh_token.token,
+      }),
+    ).toStrictEqual(credentials);
   });
 
   it('should confirmEmail', async () => {

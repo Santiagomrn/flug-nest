@@ -24,6 +24,9 @@ import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 import { MailingService } from '@modules/email/email.service';
 import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
 import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
+import { TokenDto } from './dto/token.dto';
+import { Role } from '@modules/role/entities/role.entity';
+
 export interface Token {
   token: string;
   expires: number;
@@ -56,22 +59,25 @@ export class AuthService {
     private emailService: MailingService,
   ) {}
   public async signIn(singInDto: SignInDto) {
-    try {
-      const user =
-        await this.userRepository.findOneByEmailAndIsActiveTrueIncludeRole(
-          singInDto.email,
-        );
-      const isAuthenticated = await user.authenticate(singInDto.password);
+    const user =
+      await this.userRepository.findOneByEmailAndIsActiveTrueIncludeRole(
+        singInDto.email,
+      );
+    const isAuthenticated = await user.authenticate(singInDto.password);
 
-      if (isAuthenticated === true) {
-        return this.createCredentials(user);
-      } else {
-        throw new UnauthorizedException();
-      }
-    } catch (error) {
-      this.logger.error(error);
+    if (isAuthenticated === true) {
+      return this.createCredentials(user);
+    } else {
       throw new UnauthorizedException();
     }
+  }
+  public async refreshToken(refreshTokenDto: TokenDto) {
+    const jwtPayload = this.validateJwt(
+      refreshTokenDto.token,
+      TOKEN_TYPE.REFRESH,
+    );
+    const user = await this.userRepository.findOneById(jwtPayload.id, [Role]);
+    return this.createCredentials(user);
   }
   public async signUp(createUserDto: CreateUserDto) {
     const user = await this.createUser(createUserDto);

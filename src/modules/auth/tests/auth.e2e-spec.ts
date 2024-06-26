@@ -86,6 +86,56 @@ describe('AuthController (e2e)', () => {
     return;
   });
 
+  it('/auth/refresh (POST)', async () => {
+    const createUserDto = CreateUserDtoFactory();
+    const responseUser = _.omit(createUserDto, ['password']);
+    const { body: user } = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(createUserDto)
+      .expect(function (res) {
+        if (res.status != 201) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.CREATED);
+
+    expect(user).toMatchObject({
+      ...responseUser,
+      id: expect.any(Number),
+    });
+    //confirm email
+    await userRepository.update(user.id, { isActive: true });
+
+    const { body: credentials } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: createUserDto.email,
+        password: createUserDto.password,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+
+    const { body: refreshCredentials } = await request(app.getHttpServer())
+      .post('/auth/refresh')
+      .send({
+        token: credentials.refresh_token.token,
+      })
+      .expect(function (res) {
+        if (res.status != HttpStatus.OK) {
+          console.log(JSON.stringify(res.body, null, 2));
+        }
+      })
+      .expect(HttpStatus.OK);
+    expect(refreshCredentials).toMatchObject({
+      token: expect.any(String),
+    });
+    return;
+  });
+
   afterAll(async () => {
     await app.close();
   });

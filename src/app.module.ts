@@ -7,6 +7,7 @@ import { DatabaseModule } from './core/database/database';
 import { NoteModule } from '@modules/note/note.module';
 import { EmailModule } from '@modules/email/email.module';
 import { QueueModule } from '@modules/queue/queue.module';
+import { WebsocketModule } from '@modules/websocket/websocket.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QueueModule } from '@modules/queue/queue.module';
     AuthModule,
     NoteModule,
     QueueModule,
+    WebsocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],

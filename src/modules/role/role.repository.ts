@@ -17,9 +17,7 @@ export class RoleRepository extends SequelizeCrudRepository<Role> {
   async findByName(name: string, t = null) {
     if (_.isNil(name))
       throw new NotFoundException(`Role with ${name} name Not Found`);
-    const role = await this.model.findOne({ where: { name }, transaction: t });
-    if (_.isNil(role))
-      throw new NotFoundException(`Role with ${name} name Not Found`);
+    const role = await this.findOne({ where: { name } }, t);
     return role;
   }
 }

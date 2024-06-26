@@ -17,6 +17,7 @@ import { FederatedUserDto } from './dto/federatedUser.dto';
 import { User } from '@decorators/user.decorator';
 import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
 import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
+import { TokenDto } from './dto/token.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -27,6 +28,12 @@ export class AuthController {
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
     return await this.authService.signIn(signInDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  async refreshToken(@Body() refreshTokenDto: TokenDto) {
+    return await this.authService.refreshToken(refreshTokenDto);
   }
 
   @HttpCode(HttpStatus.CREATED)
