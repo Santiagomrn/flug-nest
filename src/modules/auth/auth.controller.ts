@@ -15,6 +15,8 @@ import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { GoogleOAuthGuard } from './guards/GoogleOAuth.guard';
 import { FederatedUserDto } from './dto/federatedUser.dto';
 import { User } from '@decorators/user.decorator';
+import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
+import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -31,6 +33,20 @@ export class AuthController {
   @Post('signup')
   async signUp(@Body() createUserDto: CreateUserDto) {
     return await this.authService.signUp(createUserDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset/password/email')
+  async resetPasswordEmail(
+    @Body() resetPasswordEmailDto: ResetPasswordEmailDto,
+  ) {
+    return await this.authService.resetPasswordEmail(resetPasswordEmailDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset/password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return await this.authService.resetPassword(resetPasswordDto);
   }
 
   @HttpCode(HttpStatus.OK)

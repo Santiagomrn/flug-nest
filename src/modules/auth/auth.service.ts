@@ -22,6 +22,8 @@ import { ROLES } from '@modules/role/enums/roles.enum';
 import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 import { MailingService } from '@modules/email/email.service';
+import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
+import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
 export interface Token {
   token: string;
   expires: number;
@@ -31,6 +33,7 @@ export enum TOKEN_TYPE {
   ACCESS = 'access',
   REFRESH = 'refresh',
   CONFIRM = 'confirm',
+  RESET = 'reset',
 }
 export interface IJwtPayload {
   id: number;
@@ -74,7 +77,7 @@ export class AuthService {
     const user = await this.createUser(createUserDto);
     const token = await this.createToken(user, TOKEN_TYPE.CONFIRM);
     await this.emailService.sendConfirmationEmail(user, token.token);
-    return UserResponseDto.fromPlain(user);
+    return UserResponseDto.fromUser(user);
   }
 
   public async createToken(user: Plain<User>, type: string): Promise<Token> {
@@ -121,6 +124,31 @@ export class AuthService {
     const user = await this.userRepository.findOneById(jwtPayload.id);
     await user.confirmEmail();
   }
+  public async resetPasswordEmail(
+    resetPasswordEmailDto: ResetPasswordEmailDto,
+  ) {
+    try {
+      const user = await this.userRepository.findOneByEmail(
+        resetPasswordEmailDto.email,
+      );
+      const token = await this.createToken(user, TOKEN_TYPE.RESET);
+      await this.emailService.sendResetPasswordTokenEmail(user, token.token);
+    } catch (error) {
+      if (!(error instanceof NotFoundException)) throw error;
+    }
+  }
+  public async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const jwtPayload = this.validateJwt(
+      resetPasswordDto.token,
+      TOKEN_TYPE.RESET,
+    );
+    const userId = jwtPayload.id;
+    const user = await this.userRepository.update(userId, {
+      password: resetPasswordDto.password,
+    });
+    return UserResponseDto.fromUser(user);
+  }
+
   public async googleAuthRedirect(federatedUser: FederatedUserDto) {
     try {
       return await this.googleSingIn(federatedUser);

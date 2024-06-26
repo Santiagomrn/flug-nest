@@ -83,4 +83,10 @@ export class MailingService implements OnApplicationShutdown {
       },
     );
   }
+  async sendResetPasswordTokenEmail(user: Plain<User>, token: string) {
+    await this.sendEmail(user.email, 'Password reset', 'email_reset_password', {
+      name: user.firstName,
+      token: token,
+    });
+  }
 }
