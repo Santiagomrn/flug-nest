@@ -5,7 +5,7 @@ import {
   ForeignKey,
   Table,
 } from 'sequelize-typescript';
-import { BaseModel } from '@libraries/BaseModel';
+import { BaseModel } from '@libraries/baseModel.entity';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { User } from 'src/modules/user/entities/user.entity';
 

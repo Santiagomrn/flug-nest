@@ -1,4 +1,4 @@
-import { Plain } from '@libraries/BaseModel';
+import { Plain } from '@libraries/baseModel.entity';
 import { Exclude, Expose, plainToClass } from 'class-transformer';
 import { AuthType, User } from '../entities/user.entity';
 import { Role } from '@modules/role/entities/role.entity';
@@ -30,9 +30,9 @@ export class UserResponseDto implements Plain<User> {
   @ApiHideProperty()
   roles: Role[] = undefined;
   @Expose()
-  createdAt?: Date;
+  createdAt: Date;
   @Expose()
-  updatedAt?: Date;
+  updatedAt: Date;
 
   static fromPlain(user: Plain<User>): UserResponseDto;
   static fromPlain(user: Plain<User>[]): UserResponseDto[];

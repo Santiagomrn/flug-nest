@@ -5,7 +5,7 @@ import { config } from '@config/index';
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { User } from '@modules/user/entities/user.entity';
 import { Logger } from '@core/logger/Logger';
-import { Plain } from '@libraries/BaseModel';
+import { Plain } from '@libraries/baseModel.entity';
 
 @Injectable()
 export class MailingService implements OnApplicationShutdown {

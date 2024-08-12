@@ -13,7 +13,7 @@ import {
   FederatedUserDtoFactory,
   UserFactory,
 } from '@modules/user/tests/factories';
-import { Plain } from '@libraries/BaseModel';
+import { Plain } from '@libraries/baseModel.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 

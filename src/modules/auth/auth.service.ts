@@ -13,7 +13,7 @@ import * as uuid from 'uuid';
 import _ from 'lodash';
 import { UserRepository } from '@modules/user/user.repository';
 import { Logger } from '@core/logger/Logger';
-import { Plain } from '@libraries/BaseModel';
+import { Plain } from '@libraries/baseModel.entity';
 import { FederatedCredentialRepository } from './federatedCredential.Repository';
 import crypto from 'crypto';
 import { FederatedUserDto } from '@modules/auth/dto/federatedUser.dto';

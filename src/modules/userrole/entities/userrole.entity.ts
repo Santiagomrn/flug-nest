@@ -1,4 +1,4 @@
-import { BaseModel } from '@libraries/BaseModel';
+import { BaseModel } from '@libraries/baseModel.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { User } from '@modules/user/entities/user.entity';
 import { Column, DataType, ForeignKey, Table } from 'sequelize-typescript';

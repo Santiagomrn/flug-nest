@@ -13,7 +13,7 @@ import bcrypt from 'bcrypt';
 import { Role } from '@modules/role/entities/role.entity';
 import { UserRole } from '@modules/userrole/entities/userrole.entity';
 import { Transaction } from 'sequelize';
-import { BaseModel } from '@libraries/BaseModel';
+import { BaseModel } from '@libraries/baseModel.entity';
 import { ApiHideProperty } from '@nestjs/swagger';
 import { FederatedCredential } from '@modules/auth/entities/federatedCredential.entity';
 export enum AuthType {

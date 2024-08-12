@@ -1,4 +1,4 @@
-import { BaseModel } from '@libraries/BaseModel';
+import { BaseModel } from '@libraries/baseModel.entity';
 import { User } from '../../user/entities/user.entity';
 import { UserRole } from '../../userrole/entities/userrole.entity';
 import {

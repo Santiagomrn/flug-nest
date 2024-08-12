@@ -1,5 +1,14 @@
-import { User } from '@modules/user/entities/user.entity';
-import { Column, DataType, Model, PrimaryKey } from 'sequelize-typescript';
+import { FindOptions } from 'sequelize';
+import {
+  AssociationActionOptions,
+  Column,
+  CreatedAt,
+  DataType,
+  Model,
+  PrimaryKey,
+  Sequelize,
+  UpdatedAt,
+} from 'sequelize-typescript';
 
 /* 
   BaseModel: 
@@ -18,14 +27,33 @@ export abstract class BaseModel<
   })
   id: number;
 
+  @CreatedAt
+  createdAt: Date;
+  @UpdatedAt
+  updatedAt: Date;
+
   toJSON(): Plain<T> {
     return super.toJSON() as Plain<T>;
   }
 }
 
-export type Plain<T extends Model<T>> = OmitFunctions<
+interface HasUnwantedFunction {
+  reload(options?: FindOptions): Promise<this>;
+  $add<R extends Model>(
+    propertyKey: string,
+    instances: R | R[] | string[] | string | number[] | number,
+    options?: AssociationActionOptions,
+  ): Promise<unknown>;
+}
+export type Plain<T extends Model<T>, k = {}> = OmitFunctions<
   MagicToExtractRealType<T>
->;
+> &
+  IsNotModel<k>;
+
+export type IsNotModel<T> = T extends HasUnwantedFunction
+  ? 'Not a plain Model use Model.toJson()'
+  : T;
+
 type OmitFunctions<T> = {
   // eslint-disable-next-line @typescript-eslint/ban-types
   [P in keyof T as T[P] extends Function ? never : P]: T[P];
@@ -74,8 +102,3 @@ type MagicToExtractRealType<T extends Model<T>> = Omit<
   | '_creationAttributes'
   | 'dataValues'
 >;
-
-export class u implements Partial<Plain<User>> {
-  id: number;
-  email: string;
-}
