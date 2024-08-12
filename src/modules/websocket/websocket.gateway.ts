@@ -32,10 +32,7 @@ export class WebsocketGateway
     this.logger.log('Initialized');
   }
 
-  handleConnection(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: unknown,
-  ) {
+  handleConnection(@ConnectedSocket() client: Socket) {
     const { sockets } = this.io.sockets;
     this.logger.log(`Client id: ${client.id} connected`);
     this.logger.debug(`Number of connected clients: ${sockets.size}`);
@@ -47,7 +44,10 @@ export class WebsocketGateway
   }
 
   @SubscribeMessage('events')
-  handleMessage(client: any, data: any) {
+  handleMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: unknown,
+  ) {
     this.logger.log(`Message received from client id: ${client.id}`);
     this.logger.debug(`Payload: ${data}`);
     return {
@@ -55,6 +55,7 @@ export class WebsocketGateway
       data,
     };
   }
+
   @SubscribeMessage('identity')
   async identity(@MessageBody() data: number): Promise<number> {
     return data;
