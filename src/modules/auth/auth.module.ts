@@ -23,6 +23,6 @@ import { RoleModule } from '@modules/role/role.module';
   ],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, FederatedCredentialRepository],
-  exports: [AuthService],
+  exports: [AuthService, UserModule],
 })
 export class AuthModule {}
