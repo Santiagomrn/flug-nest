@@ -14,6 +14,7 @@ import { UserRepository } from '@modules/user/user.repository';
 import { EmailModule } from '@modules/email/email.module';
 import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { AuthService, TOKEN_TYPE } from '../auth.service';
+import { CredentialsDto } from '../dto/Credentials.dto';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -46,7 +47,10 @@ describe('AuthController (e2e)', () => {
       .expect(HttpStatus.CREATED);
     return response;
   };
-  const loginUser = async (email: string, password: string) => {
+  const loginUser = async (
+    email: string,
+    password: string,
+  ): Promise<{ body: CredentialsDto }> => {
     const response = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
@@ -139,7 +143,7 @@ describe('AuthController (e2e)', () => {
     );
 
     const { body: refreshCredentials } = await refreshToken(
-      credentials.refresh_token.token,
+      credentials.refreshToken,
     );
     expect(refreshCredentials).toMatchObject({
       token: expect.any(String),

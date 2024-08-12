@@ -8,6 +8,7 @@ import {
   HasMany,
   Table,
 } from 'sequelize-typescript';
+import { ApiHideProperty } from '@nestjs/swagger';
 
 @Table({
   tableName: 'role',
@@ -32,12 +33,14 @@ export class Role extends BaseModel<Role> {
   })
   isDefault: boolean;
 
+  @ApiHideProperty()
   @HasMany(() => UserRole, {
     hooks: true,
     onDelete: 'CASCADE',
   })
-  userRoles: UserRole[];
+  userRoles?: UserRole[];
 
+  @ApiHideProperty()
   @BelongsToMany(() => User, {
     through: {
       model: () => UserRole,
@@ -45,5 +48,5 @@ export class Role extends BaseModel<Role> {
     },
     constraints: false,
   })
-  users: User[];
+  users?: User[];
 }

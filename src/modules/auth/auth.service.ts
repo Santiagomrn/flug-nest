@@ -26,7 +26,7 @@ import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
 import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
 import { TokenDto } from './dto/token.dto';
 import { Role } from '@modules/role/entities/role.entity';
-
+import { CredentialsDto } from './dto/Credentials.dto';
 export interface Token {
   token: string;
   expires: number;
@@ -66,7 +66,7 @@ export class AuthService {
     const isAuthenticated = await user.authenticate(singInDto.password);
 
     if (isAuthenticated === true) {
-      return this.createCredentials(user);
+      return this.createCredentials(user.toJSON());
     } else {
       throw new UnauthorizedException();
     }
@@ -77,7 +77,7 @@ export class AuthService {
       TOKEN_TYPE.REFRESH,
     );
     const user = await this.userRepository.findOneById(jwtPayload.id, [Role]);
-    return this.createCredentials(user);
+    return this.createCredentials(user.toJSON());
   }
   public async signUp(createUserDto: CreateUserDto) {
     const user = await this.createUser(createUserDto);
@@ -116,16 +116,16 @@ export class AuthService {
       expires_in: expires_in,
     };
   }
-  public async createCredentials(user: Plain<User>) {
+  public async createCredentials<T>(user: Plain<User, T>) {
     const accessToken = await this.createToken(user, TOKEN_TYPE.ACCESS);
     const refreshToken = await this.createToken(user, TOKEN_TYPE.REFRESH);
-    const credentials = {
+    const credentials = CredentialsDto.fromPlain({
       token: accessToken.token,
       expires: accessToken.expires,
-      refresh_token: refreshToken,
-      user: _.pick(user, ['id', 'name', 'email']),
+      refreshToken: refreshToken.token,
+      user: _.pick(user, ['id', 'firstName', 'email']),
       roles: user.roles,
-    };
+    });
     return credentials;
   }
   public async confirmEmail(token: string) {
@@ -164,7 +164,7 @@ export class AuthService {
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         const user = await this.createFederatedUser(federatedUser);
-        return await this.createCredentials(user);
+        return await this.createCredentials(user.toJSON());
       }
       throw error;
     }
@@ -180,7 +180,7 @@ export class AuthService {
       const user = await this.userRepository.findOneById(
         federatedCredentials.userId,
       );
-      return await this.createCredentials(user);
+      return await this.createCredentials(user.toJSON());
     } catch (error) {
       this.logger.error(error);
       if (error instanceof NotFoundException) {

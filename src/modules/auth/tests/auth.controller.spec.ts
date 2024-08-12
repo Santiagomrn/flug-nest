@@ -16,6 +16,7 @@ import {
 import { Plain } from '@libraries/baseModel.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { UserResponseDto } from '@modules/user/dto/user-response.dto';
+import { CredentialsDto } from '../dto/Credentials.dto';
 
 describe('Auth Controller', () => {
   let controller: AuthController, service: AuthService;
@@ -23,15 +24,12 @@ describe('Auth Controller', () => {
     token:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViIjoiYWNjZXNzIiwiYXVkIjoidXNlciIsImV4cCI6MTcxMjgwNzI5My45MDMsImlhdCI6MTcxMDIxNTI5My45MDMsImp0aSI6ImJjNWI2MzJhLTVhZmItNDg1Mi1iNzA4LTQ2ZTdjYTZkZjEzMyIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlcyI6W3siaWQiOjEsIm5hbWUiOiJhZG1pbiIsImRlc2NyaXB0aW9uIjoiYWRtaW4iLCJpc0RlZmF1bHQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJ1cGRhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJVc2VyUm9sZSI6eyJpZCI6MSwidXNlcklkIjoxLCJyb2xlSWQiOjEsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiJ9fV19.hiCdpoivLRCEniopoaWM4uKFkuDdxnvnC4SF5VKjN',
     expires: 1712807293.903,
-    refresh_token: {
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViIjoicmVmcmVzaCIsImF1ZCI6InVzZXIiLCJleHAiOjE3MjYxMTI4OTMuOTIsImlhdCI6MTcxMDIxNTI5My45MjEsImp0aSI6ImM3NTdmNmI0LTYwNWYtNGM2Ny05YjhjLTU2M2M4MmE1ZDVkMyIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlcyI6W3siaWQiOjEsIm5hbWUiOiJhZG1pbiIsImRlc2NyaXB0aW9uIjoiYWRtaW4iLCJpc0RlZmF1bHQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJ1cGRhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJVc2VyUm9sZSI6eyJpZCI6MSwidXNlcklkIjoxLCJyb2xlSWQiOjEsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiJ9fV19.rmnHyVSBezLJO5ZisReJqN9V0xamfq3yUtTbO4Dep',
-      expires: 1726112893.92,
-      expires_in: 15897599.999000072,
-    },
+    refreshToken:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic3ViIjoicmVmcmVzaCIsImF1ZCI6InVzZXIiLCJleHAiOjE3MjYxMTI4OTMuOTIsImlhdCI6MTcxMDIxNTI5My45MjEsImp0aSI6ImM3NTdmNmI0LTYwNWYtNGM2Ny05YjhjLTU2M2M4MmE1ZDVkMyIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlcyI6W3siaWQiOjEsIm5hbWUiOiJhZG1pbiIsImRlc2NyaXB0aW9uIjoiYWRtaW4iLCJpc0RlZmF1bHQiOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJ1cGRhdGVkQXQiOiIyMDI0LTAzLTA4VDAzOjA3OjM3LjY3M1oiLCJVc2VyUm9sZSI6eyJpZCI6MSwidXNlcklkIjoxLCJyb2xlSWQiOjEsImNyZWF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDMtMDhUMDM6MDc6MzcuODAxWiJ9fV19.rmnHyVSBezLJO5ZisReJqN9V0xamfq3yUtTbO4Dep',
     user: {
       id: 1,
       email: 'admin@example.com',
+      firstName: 'data',
     },
     roles: [
       {
@@ -39,24 +37,11 @@ describe('Auth Controller', () => {
         name: 'admin',
         description: 'admin',
         isDefault: false,
-        createdAt: '2024-03-08T03:07:37.673Z',
-        updatedAt: '2024-03-08T03:07:37.673Z',
-        UserRole: {
-          id: 1,
-          userId: 1,
-          roleId: 1,
-          createdAt: '2024-03-08T03:07:37.801Z',
-          updatedAt: '2024-03-08T03:07:37.801Z',
-        },
+        createdAt: new Date('2024-03-08T03:07:37.673Z'),
+        updatedAt: new Date('2024-03-08T03:07:37.673Z'),
       },
     ],
-  } as unknown as {
-    token: string;
-    expires: number;
-    refresh_token: Token;
-    user: Partial<Plain<User>>;
-    roles: Role[];
-  };
+  } as CredentialsDto;
   const createTestingModule = async () => {
     const mockAuthService = {
       signIn: async () => credentials,
@@ -124,7 +109,7 @@ describe('Auth Controller', () => {
     jest.spyOn(service, 'refreshToken').mockResolvedValue(credentials);
     expect(
       await controller.refreshToken({
-        token: credentials.refresh_token.token,
+        token: credentials.refreshToken,
       }),
     ).toStrictEqual(credentials);
   });
