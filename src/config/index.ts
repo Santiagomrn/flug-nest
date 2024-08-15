@@ -133,6 +133,9 @@ export const config = {
         process.env.GOOGLE_CLIENT_SECRET || 'use your own credentials',
     },
   },
+  oauth: {
+    redirect: process.env.OAUTH_REDIRECT || '"http://127.0.0.1:5173/"',
+  },
   test: {
     db: {
       database: process.env.TEST_DB_NAME || 'sqlite_db',

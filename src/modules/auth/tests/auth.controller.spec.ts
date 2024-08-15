@@ -17,6 +17,8 @@ import { Plain } from '@libraries/baseModel.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 import { CredentialsDto } from '../dto/Credentials.dto';
+import { config } from '@config/index';
+import { HttpStatus } from '@nestjs/common';
 
 describe('Auth Controller', () => {
   let controller: AuthController, service: AuthService;
@@ -128,7 +130,12 @@ describe('Auth Controller', () => {
     const federatedUserDto = FederatedUserDtoFactory();
     jest.spyOn(service, 'googleAuthRedirect').mockResolvedValue(credentials);
     expect(await controller.googleAuthRedirect(federatedUserDto)).toStrictEqual(
-      credentials,
+      {
+        url:
+          config.oauth.redirect +
+          `oauth/?token=${credentials.token}&refreshToken=${credentials.refreshToken}`,
+        statusCode: HttpStatus.FOUND,
+      },
     );
   });
 
