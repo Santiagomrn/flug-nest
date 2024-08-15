@@ -19,8 +19,6 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  authType: AuthType = AuthType.Email;
-
   @IsNotEmpty()
   @MaxLength(255)
   @IsString()

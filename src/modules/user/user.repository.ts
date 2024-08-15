@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { Role } from '@modules/role/entities/role.entity';
 import _ from 'lodash';
-import { Transaction } from 'sequelize';
+import { Identifier, Transaction } from 'sequelize';
 
 @Injectable()
 export class UserRepository extends SequelizeCrudRepository<User> {
@@ -73,5 +73,15 @@ export class UserRepository extends SequelizeCrudRepository<User> {
     } catch (error) {
       if (!(error instanceof NotFoundException)) throw error;
     }
+  }
+  async confirmEmail(id: Identifier, transaction?: Transaction) {
+    await this.update(
+      id,
+      {
+        isActive: true,
+        isEmailConfirmed: true,
+      },
+      transaction,
+    );
   }
 }

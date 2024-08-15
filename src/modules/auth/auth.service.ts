@@ -130,8 +130,7 @@ export class AuthService {
   }
   public async confirmEmail(token: string) {
     const jwtPayload = this.validateJwt(token, TOKEN_TYPE.CONFIRM);
-    const user = await this.userRepository.findOneById(jwtPayload.id);
-    await user.confirmEmail();
+    await this.userRepository.confirmEmail(jwtPayload.id);
   }
   public async resetPasswordEmail(
     resetPasswordEmailDto: ResetPasswordEmailDto,
