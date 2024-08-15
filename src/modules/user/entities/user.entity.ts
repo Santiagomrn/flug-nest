@@ -135,16 +135,14 @@ export class User extends BaseModel<User> {
     });
   }
 
-  addRole(roleId: number, t: Transaction = null): Promise<void> {
-    return UserRole.create(
+  async addRole(roleId: number, t: Transaction = null): Promise<void> {
+    await this.$create<UserRole>(
+      UserRole.name,
+      { roleId: roleId },
       {
-        userId: this.id,
-        roleId,
+        transaction: t,
       },
-      { transaction: t },
-    ).then(() => {
-      return null;
-    });
+    );
   }
   addFederatedCredential(
     credentials: { provider: string; subject: string },
@@ -157,20 +155,5 @@ export class User extends BaseModel<User> {
       },
       { transaction: t },
     );
-  }
-  async getRoles(t: Transaction = null) {
-    const userRoles = await UserRole.findAll({
-      where: { userId: this.id },
-      include: [{ model: Role, required: true }],
-      transaction: t,
-    });
-    const rolesIds = userRoles.map((userRole) => userRole.roleId);
-    const roles = await Role.findAll({ where: { id: rolesIds } });
-    this.setDataValue('roles', roles);
-    return roles;
-  }
-  async confirmEmail(t: Transaction = null) {
-    this.isEmailConfirmed = true;
-    await this.save({ transaction: t });
   }
 }
