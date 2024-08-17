@@ -1,3 +1,4 @@
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
 import {
   ArgumentMetadata,
   HttpException,
@@ -40,7 +41,7 @@ export class ParseWherePipe implements PipeTransform {
     const whereValue = value ?? '[]';
     if (Array.isArray(whereValue)) return whereValue;
     try {
-      return ParseWherePipe.parseWhereString(whereValue);
+      return ParseWherePipe.parseWhereString(whereValue) as ArrayWhereOptions;
     } catch (e) {
       console.log(e);
       this.logger.error(e);

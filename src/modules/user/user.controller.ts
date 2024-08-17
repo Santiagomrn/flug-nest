@@ -16,7 +16,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ParseOffsetPipe } from '@pipes/parseOffset.pipe';
 import { ParseLimitPipe } from '@pipes/parseLimit.pipe';
 import { ParseWherePipe } from '@pipes/parseWhere.pipe';
-import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
+import { IncludeOptions, OrderItem } from 'sequelize';
 import { ParseIncludePipe } from '@pipes/parseInclude.pipe';
 import { ParseOrderPipe } from '@pipes/parseOrder.pipe';
 import { ValidateJWT } from '@modules/auth/decorators/validateJWT.decorator';
@@ -35,6 +35,7 @@ import { IsSelfUserOrIsRole } from '@modules/auth/decorators/isSelfUserOrIsRole.
 import { ROLES } from '@modules/role/enums/roles.enum';
 import { IsRole } from '@modules/auth/decorators/isRole.decorator';
 import { UserResponseDto } from './dto/user-response.dto';
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
 
 @ApiExtraModels(User)
 @ApiTags('users')
@@ -53,7 +54,7 @@ export class UserController {
   @ValidateJWT()
   @Get()
   async findAll(
-    @Query('where', ParseWherePipe) where?: WhereOptions,
+    @Query('where', ParseWherePipe) where?: ArrayWhereOptions<User>,
     @Query('offset', ParseOffsetPipe) offset?: number,
     @Query('limit', ParseLimitPipe) limit?: number,
     @Query('order', ParseOrderPipe) order?: OrderItem[],

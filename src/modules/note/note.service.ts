@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NoteRepository } from './note.repository';
-import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
+import { IncludeOptions, OrderItem } from 'sequelize';
 import { Note } from './entities/note.entity';
 import { PaginatedDto } from '@common/dto/paginated.dto';
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
 
 @Injectable()
 export class NoteService {
@@ -15,7 +16,7 @@ export class NoteService {
 
   async findAll(options?: {
     include?: IncludeOptions[];
-    where?: WhereOptions<Note>;
+    where?: ArrayWhereOptions<Note>;
     limit?: number;
     offset?: number;
     order?: OrderItem[];

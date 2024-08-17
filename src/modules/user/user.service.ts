@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
-import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
+import { IncludeOptions, OrderItem } from 'sequelize';
 import { User } from './entities/user.entity';
 import { RoleRepository } from '@modules/role/role.repository';
 import { ROLES } from '@modules/role/enums/roles.enum';
 import { UserResponseDto } from './dto/user-response.dto';
 import { PaginatedDto } from '@common/dto/paginated.dto';
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
   }
   async findAll(options?: {
     include?: IncludeOptions[];
-    where?: WhereOptions<User>;
+    where?: ArrayWhereOptions<User>;
     limit?: number;
     offset?: number;
     order?: OrderItem[];

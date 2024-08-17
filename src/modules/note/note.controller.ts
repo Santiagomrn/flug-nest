@@ -15,7 +15,9 @@ import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { ParseOffsetPipe } from '@pipes/parseOffset.pipe';
 import { ParseLimitPipe } from '@pipes/parseLimit.pipe';
-import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
+import { ParseWherePipe } from '@pipes/parseWhere.pipe';
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
+import { IncludeOptions, OrderItem } from 'sequelize';
 import { ParseIncludePipe } from '@pipes/parseInclude.pipe';
 import { ParseOrderPipe } from '@pipes/parseOrder.pipe';
 import { Note } from './entities/note.entity';
@@ -33,7 +35,6 @@ import { ApiQueryPagination } from '@swagger/utils/pagination.decorator';
 import { ApiOkResponsePaginatedData } from '@swagger/httpResponses/OkPaginatedData.decorator';
 import { ApiOkResponseData } from '@swagger/httpResponses/Ok.decorator';
 import { ApiCreatedResponseData } from '@swagger/httpResponses/Created.decorator';
-import { ParseWherePipe } from '@pipes/parseWhere.pipe';
 
 @ApiExtraModels(Note)
 @ApiTags('notes')
@@ -62,7 +63,7 @@ export class NoteController {
   @ValidateJWT()
   @Get()
   async findAll(
-    @Query('where', ParseWherePipe) where?: WhereOptions,
+    @Query('where', ParseWherePipe) where?: ArrayWhereOptions<Note>,
     @Query('offset', ParseOffsetPipe) offset?: number,
     @Query('limit', ParseLimitPipe) limit?: number,
     @Query('attributes', ParseAttributesPipe)
