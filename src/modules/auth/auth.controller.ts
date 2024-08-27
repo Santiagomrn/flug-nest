@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Redirect,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { SignInDto } from './dto/signIn.dto';
@@ -21,6 +22,7 @@ import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
 import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
 import { TokenDto } from './dto/token.dto';
 import { config } from '@config/index';
+import { HttpUnauthorizedExceptionFilter } from 'src/common/Exceptions/httpUnauthorizedException.filter';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -70,6 +72,7 @@ export class AuthController {
   @Get('google')
   authGoogle() {}
 
+  @UseFilters(new HttpUnauthorizedExceptionFilter())
   @Get('google-redirect')
   @Redirect()
   @UseGuards(GoogleOAuthGuard)
@@ -80,8 +83,8 @@ export class AuthController {
       await this.authService.googleAuthRedirect(federatedUser);
     return {
       url:
-        config.oauth.redirect +
-        `oauth/?token=${credentials.token}&refreshToken=${credentials.refreshToken}`,
+        config.oauth.successful.redirect +
+        `?token=${credentials.token}&refreshToken=${credentials.refreshToken}`,
       statusCode: HttpStatus.FOUND,
     };
   }

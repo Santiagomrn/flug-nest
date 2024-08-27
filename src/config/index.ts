@@ -134,7 +134,12 @@ export const config = {
     },
   },
   oauth: {
-    redirect: process.env.OAUTH_REDIRECT || '"http://127.0.0.1:5173/"',
+    successful: {
+      redirect: process.env.OAUTH_SUCCESSFUL_REDIRECT,
+    },
+    fail: {
+      redirect: process.env.OAUTH_FAIL_REDIRECT,
+    },
   },
   test: {
     db: {
