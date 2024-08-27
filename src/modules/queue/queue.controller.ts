@@ -9,13 +9,16 @@ import {
 } from 'nestjs-azure-service-bus-transporter';
 import { config } from '@config/index';
 import { ApiTags } from '@nestjs/swagger';
+import { Logger } from '@core/logger/Logger';
 
 @ApiTags('servicebus')
 @Controller('servicebus')
 export class QueueController {
+  private logger: Logger = new Logger(QueueController.name);
   constructor(
     @Inject('SB_CLIENT') private readonly sbClient: AzureServiceBusClientProxy,
   ) {}
+
   @Get('queue/emit')
   queueEmit(): string {
     this.sbClient.emit(config.azure.serviceBus.queueExample, {
@@ -28,7 +31,7 @@ export class QueueController {
 
   @Get('topic/emit')
   topicEmit(): string {
-    this.sbClient.emit(config.azure.serviceBus.queueExample, {
+    this.sbClient.emit(config.azure.serviceBus.topicExample, {
       body: {
         test: 'topic',
       },
@@ -43,12 +46,12 @@ export class QueueController {
       autoCompleteMessages: true,
     },
   })
-  handleQueuemessage(
+  handleQueueMessage(
     @Payload() data: ServiceBusMessage,
     @Ctx() context: AzureServiceBusContext,
   ) {
     const serviceBusReceiver: ServiceBusReceiver = context.getArgs()[0];
-    console.log(data.body);
+    this.logger.info(data.body);
   }
 
   @Topic({
@@ -59,11 +62,11 @@ export class QueueController {
       autoCompleteMessages: true,
     },
   })
-  handleTopicmessage(
+  handleTopicMessage(
     @Payload() data: ServiceBusMessage,
     @Ctx() context: AzureServiceBusContext,
   ) {
     const serviceBusReceiver: ServiceBusReceiver = context.getArgs()[0];
-    console.log(data.body);
+    this.logger.info(data.body);
   }
 }
