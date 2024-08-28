@@ -22,7 +22,7 @@ import { ResetPasswordDto } from '@modules/auth/dto/resetPassword.dto';
 import { ResetPasswordEmailDto } from './dto/resetPasswordEmail.dto';
 import { TokenDto } from './dto/token.dto';
 import { config } from '@config/index';
-import { HttpUnauthorizedExceptionFilter } from 'src/common/Exceptions/httpUnauthorizedException.filter';
+import { HttpUnauthorizedExceptionFilter } from '@exceptions/httpUnauthorizedException.filter';
 
 @ApiTags('auth')
 @Controller('auth')
