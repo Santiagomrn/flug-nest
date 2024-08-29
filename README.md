@@ -1,6 +1,6 @@
-# Flug-Nest ✈️ <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="40" alt="Nest Logo" /></a>
+# Flugnest ✈️ <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="40" alt="Nest Logo" /></a>
 
-Flug-Nest is a template for web application development powered by [Sequelize-typescript](https://github.com/sequelize/sequelize-typescript#readme) and
+[Flugnest](https://github.com/Santiagomrn/flug-nest) is a template for web application development powered by [Sequelize-typescript](https://github.com/sequelize/sequelize-typescript#readme) and
 [NestJs](https://github.com/nestjs/nest) framework, inspired on [flugzeug](https://github.com/Rodmg/flugzeug) framework. It provides modules, validators, interceptors, pipes, decorators, database migration system, logger, auto-generated swagger documentation and a cli tool to accelerate the development process.
 
 ## Quick Start
@@ -9,11 +9,13 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Flugnest generator](https://www.npmjs.com/package/flugnest-generator)
 
+- [Build a note app](./src/docs/CreateANoteApi.md)
+
 - [Service Bus Module](https://www.npmjs.com/package/nestjs-azure-service-bus-transporter)
 
-- [webSockets Module](https://docs.nestjs.com/websockets/gateways)
+- [WebSockets Module](https://docs.nestjs.com/websockets/gateways)
 
-- [Build a note app](./src/docs/CreateANoteApi.md)
+- [HeyChat](https://github.com/Santiagomrn/heychat-backend) (Working example of flugnest websocket module)
 
 - [Design pattern implementations in TypeScript](https://github.com/Santiagomrn/design_patterns_in_typescript)
 
