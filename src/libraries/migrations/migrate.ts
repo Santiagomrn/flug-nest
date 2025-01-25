@@ -19,7 +19,7 @@ async function main() {
     await umzug.up();
     logger.info('MIGRATIONS DONE');
   } catch (err) {
-    logger.error(err);
+    console.error('error: ', err);
     process.exit();
   }
   process.exit();
